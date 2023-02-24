@@ -7,19 +7,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Building Layouts'),
-          centerTitle: true,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Text(
-        'Shadowhunters!',
-        style: TextStyle(fontSize: 30),
-      ),
-      )
-      )
+          appBar: AppBar(
+            title: Text('Building Layouts'),
+            centerTitle: true,
+          ),
+          // или виджет Center, но без Alignment
+          body: Align(
+            alignment: Alignment.center,
+            child: Text(
+              'Shadowhunters!',
+              style: TextStyle(fontSize: 30),
+            ),
+          )),
     );
   }
 }
-
