@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,25 +12,26 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.green,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: MyHomePage(
-          title: 'Counter',
-          centerTitle: true,
-        ));
+        home: const MyHomePage(
+          title: 'Counter1',
+          // centerTitle: true,
+        ),
+    );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  @override
-  MyHomePage({Key? key, this.title = 'Counter', this.centerTitle = true})
+  const MyHomePage({Key? key, this.title = 'Counter', this.centerTitle = true})
       : super(key: key);
 
   final String title;
-  bool centerTitle;
+  final bool centerTitle;
 
-  _MyHomePageState createState() => _MyHomePageState();
+  @override
+  MyHomePageState createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   int _counter = 50;
 
   void _incrementCounter() {
@@ -52,18 +54,18 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: widget.centerTitle,
       ),
       body: Container(
-        color: Color.fromARGB(255, 121, 203, 140),
+        color: const Color.fromARGB(255, 121, 203, 140),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                'Tap \"-\" to decrement',
+              const Text(
+                'Tap "-" to decrement',
                 style: TextStyle(fontSize: 14, color: Colors.white),
               ),
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 160.0, vertical: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 160.0, vertical: 5),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: Colors.indigo[50],
@@ -73,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.remove),
+                      icon: const Icon(Icons.remove),
                       onPressed: _decrementCounter,
                     ),
                     Text(
@@ -81,14 +83,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     IconButton(
-                      icon: Icon(Icons.add),
+                      icon: const Icon(Icons.add),
                       onPressed: _incrementCounter,
                     ),
                   ],
                 ),
               ),
-              Text(
-                'Tap \"+\" to increment',
+              const Text(
+                'Tap "+" to increment',
                 style: TextStyle(fontSize: 14, color: Colors.white),
               ),
             ],
