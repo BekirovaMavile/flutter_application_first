@@ -1,69 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/color_bloc.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Counter',
-      home: MyHomePage(),
+    return const MaterialApp(
+      home: MyScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyInheritedWidget extends InheritedWidget {
+  const MyInheritedWidget(
+      {Key? key, required this.child, required this.message})
+      : super(key: key, child: child);
+
+  final Widget child;
+
+// message of our inherited widget class
+  final String message;
+
+  static MyInheritedWidget of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<MyInheritedWidget>()!;
+  }
+
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  bool updateShouldNotify(MyInheritedWidget oldWidget) {
+    return oldWidget.message != message;
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  ColorBloc _bloc = ColorBloc();
+class MyScreen extends StatelessWidget {
+  const MyScreen({Key? key}) : super(key: key);
 
   @override
-  void dispose(){
-    _bloc.dispose();
-    super.dispose();
-  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BLoC with Stream'),
+        title: const Text("GFG"),
+        backgroundColor: Colors.green,
       ),
-    body: Center(
-      child: StreamBuilder(
-        stream: _bloc.outputStateStream,
-        initialData: Colors.red,
-        builder: (context, snapshot){
-          return AnimatedContainer(
-            height: 100,
-            width: 100,
-            color: snapshot.data,
-            duration: const Duration(milliseconds: 500)
-          );
-        },
-      )
-    ),
-    floatingActionButton: Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        FloatingActionButton(
-          backgroundColor: Colors.red,
-          onPressed: () {
-            _bloc.inputEventSink.add(ColorEvent.event_red);
+      body: MyInheritedWidget(
+        // passing the message as string
+        message: "Hey GEEKS",
+        child: Builder(
+          builder: (BuildContext innerContext) {
+            return Center(
+                child: Text(
+              // using the message of our inherited widget using of()
+              MyInheritedWidget.of(innerContext).message,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ));
           },
         ),
-        const SizedBox(width: 10),
-        FloatingActionButton(
-          backgroundColor: Colors.green,
-          onPressed: () {
-            _bloc.inputEventSink.add(ColorEvent.event_green);
-          },
-        )
-      ],
       ),
     );
   }
