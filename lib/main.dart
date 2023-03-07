@@ -1,62 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/color_bloc.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyScreen(),
+    return MaterialApp(
+      title: 'Counter',
+      home: MyPage,
     );
   }
 }
 
-class MyInheritedWidget extends InheritedWidget {
-  const MyInheritedWidget(
-      {Key? key, required this.child, required this.message})
-      : super(key: key, child: child);
-
-  final Widget child;
-
-// message of our inherited widget class
-  final String message;
-
-  static MyInheritedWidget of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<MyInheritedWidget>()!;
-  }
-
-  @override
-  bool updateShouldNotify(MyInheritedWidget oldWidget) {
-    return oldWidget.message != message;
+class MyPage extends StatelessWidget {
+  final int accountId;
+  final int scopeId;
+  
+  MyPage(this.accountId, this.scopeId);
+  
+  Widget build(BuildContext context) {
+    return new MyWidget(accountId, scopeId);
   }
 }
 
-class MyScreen extends StatelessWidget {
-  const MyScreen({Key? key}) : super(key: key);
-
+class MyWidget extends StatelessWidget {
+  final int accountId;
+  final int scopeId;
+  
+  MyWidget(this.accountId, this.scopeId);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("GFG"),
-        backgroundColor: Colors.green,
-      ),
-      body: MyInheritedWidget(
-        // passing the message as string
-        message: "Hey GEEKS",
-        child: Builder(
-          builder: (BuildContext innerContext) {
-            return Center(
-                child: Text(
-              // using the message of our inherited widget using of()
-              MyInheritedWidget.of(innerContext).message,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ));
-          },
-        ),
-      ),
-    );
+
+    new MyOtherWidget(accountId, scopeId);
   }
 }
