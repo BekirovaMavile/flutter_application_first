@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/color_bloc.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -10,30 +10,56 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Counter',
-      home: MyPage,
+      home: MyHomePage(),
     );
   }
 }
 
-class MyPage extends StatelessWidget {
-  final int accountId;
-  final int scopeId;
-  
-  MyPage(this.accountId, this.scopeId);
-  
-  Widget build(BuildContext context) {
-    return new MyWidget(accountId, scopeId);
-  }
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class MyWidget extends StatelessWidget {
-  final int accountId;
-  final int scopeId;
-  
-  MyWidget(this.accountId, this.scopeId);
+class _MyHomePageState extends State<MyHomePage> {
+var color = Colors.red;
+
+
+void onRedTap(){
+  color = Colors.red;
+  setState(() {});
+}
+
+void onGreenTap(){
+  color = Colors.green;
+  setState(() {});
+}
   @override
   Widget build(BuildContext context) {
-
-    new MyOtherWidget(accountId, scopeId);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('BLoC with Stream'),
+      ),
+      body: Center(
+          child: AnimatedContainer(
+              height: 100,
+              width: 100,
+              color: color,
+              duration: const Duration(milliseconds: 500)),
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton(
+            backgroundColor: Colors.red,
+            onPressed: onRedTap,
+          ),
+          const SizedBox(width: 10),
+          FloatingActionButton(
+            backgroundColor: Colors.green,
+            onPressed: onGreenTap,
+          )
+        ],
+      ),
+    );
   }
 }

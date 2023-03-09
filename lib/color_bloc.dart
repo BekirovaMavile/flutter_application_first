@@ -2,34 +2,23 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-enum ColorEvent{
-  event_red, event_green
-}
-
 class ColorBloc{
-  Color _color = Colors.red;
-
-  final _inputEventController = StreamController<ColorEvent>();
-  StreamSink<ColorEvent> get inputEventSink => _inputEventController.sink;
-
-  final _outputStateontroller = StreamController<Color>();
-  Stream<Color> get outputStateStream => _outputStateontroller.stream;
-
-  void _mapEventToState(ColorEvent event){
-    if(event == ColorEvent.event_red) _color = Colors.red;
-    else if (event == ColorEvent.event_green) _color = Colors.green;
-    else 
-      throw Exception('Wrong Event Type');
-
-      _outputStateontroller.sink.add(_color);
-  }
-
   ColorBloc(){
-    _inputEventController.stream.listen(_mapEventToState);
+    _eventStreamController.stream.listen(_mapEventToState);
   }
+  final _colorStreamController = StreamController<Color>();
+  final _eventStreamController = StreamController<String>();
+  var color = Colors.red;
 
-  void dispose(){
-    _inputEventController.close();
-    _outputStateontroller.close();
+  Stream<Color> get colorForListen =>_colorStreamController.stream;
+  StreamSink<String> get sinkForSendEvent => _eventStreamController.sink;
+
+  void _mapEventToState(String event){
+    if(event == 'red') {
+      _colorStreamController.sink.add(Colors.red);
+    }
+    if(event == 'green'){
+      _colorStreamController.sink.add(Colors.green);
+    }
   }
 }
