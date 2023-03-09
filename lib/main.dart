@@ -1,33 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/counter_bloc.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-
-
+  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Counter',
-      home: HomePage(),
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const MyHomePage(
+        title: 'Counter',
+        // centerTitle: true,
+      ),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  // const HomePage({super.key, this.title = 'Counter', this.centerTitle = true});
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, this.title = 'Counter', this.centerTitle = true})
+      : super(key: key);
 
-  // final String title;
-  // final bool centerTitle;
+  final String title;
+  final bool centerTitle;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  MyHomePageState createState() => MyHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  int _counter = 50;
-  CounterBloc _bloc = CounterBloc();
+class MyHomePageState extends State<MyHomePage> {
+  var counter = 50;
+CounterBloc bloc = CounterBloc();
+
+  // int _counter = 50;
 
   // void _incrementCounter() {
   //   setState(() {
@@ -36,133 +45,73 @@ class _HomePageState extends State<HomePage> {
   // }
 
   // void _decrementCounter() {
-  //   _counter--;
-  //   setState(() {});
+  //   setState(() {
+  //     _counter--;
+  //   });
   // }
 
   @override
-  void dispose() {
-    _bloc.dispose();
-    super.dispose();
-  }
-
+  
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Counter'),
-        backgroundColor: Colors.green,
+        centerTitle: widget.centerTitle,
       ),
-//       Container(
-// color: Color.fromARGB(255, 123, 242, 127),
-//       ),
-      body: Container(
-        color: const Color.fromARGB(255, 105, 192, 107),
+      body: Center(
+        child: StreamBuilder(
+          stream: bloc.counterForListen,
+          builder: (context, snapshot) {
+          return Container(
+        color: const Color.fromARGB(255, 121, 203, 140),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Text(
-                '"-" to decrement',
-                style: TextStyle(color: Colors.white, fontSize: 16),
+                'Tap "-" to decrement',
+                style: TextStyle(fontSize: 14, color: Colors.white),
               ),
-              Center(
-                child: StreamBuilder(
-                  stream: _bloc.outputStateStream,
-                  builder: (context, snapshot) {
-                    return Container(
-                      width: 130,
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.green[50],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          IconButton(
-                              onPressed: () {
-                                _bloc.inputEventSink
-                                    .add(CounterEvent.event_decrement);
-                              },
-                              icon: const Icon(Icons.remove),
-                              color: Colors.black),
-                          Text(
-                            '$_counter',
-                            style: const TextStyle(color: Colors.black),
-                          ),
-                          IconButton(
-                              onPressed: () {
-                                _bloc.inputEventSink
-                                    .add(CounterEvent.event_increment);
-                              },
-                              icon: const Icon(Icons.add),
-                              color: Colors.black),
-                        ],
-                      ),
-                    );
-                  },
+              Container(
+                width: double.infinity,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 160.0, vertical: 5),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.indigo[50],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                //   Text(
-                //         '"+" to increment',
-                //         style: TextStyle(color: Colors.white, fontSize: 16),
-                // ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.remove),
+                      onPressed:(){ 'decrement';
+                      },
+                    ),
+                    Text(
+                      '$counter',
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed:(){ 'increment';
+                      }
+                    ),
+                  ],
+                ),
               ),
               const Text(
-                '"+" to increment',
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              )
+                'Tap "+" to increment',
+                style: TextStyle(fontSize: 14, color: Colors.white),
+              ),
             ],
           ),
         ),
-      ),
+      );
+          },
+        ),
+      )
     );
   }
-  // body: Container(
-  //   color: const Color.fromARGB(255, 105, 192, 107),
-  //   child: Center(
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: <Widget>[
-  //         const Text(
-  //           '"-" to decrement',
-  //           style: TextStyle(color: Colors.white, fontSize: 16),
-  //         ),
-  //         Container(
-  //           width: 130,
-  //           margin:
-  //               const EdgeInsets.symmetric(vertical: 10),
-  //           alignment: Alignment.center,
-  //           decoration: BoxDecoration(
-  //             color: Colors.green[50],
-  //             borderRadius: BorderRadius.circular(10),
-  //           ),
-  //           child: Row(
-  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //             children: [
-  //               IconButton(
-  //                   onPressed: (){ _bloc.inputEventSink.add(CounterEvent.event_decrement);
-  //                   },
-  //                   icon: const Icon(Icons.remove),
-  //                   color: Colors.black),
-  //               // Text(
-  //               //   '$_bloc',
-  //               //   style: const TextStyle(color: Colors.black),
-  //               // ),
-  //               IconButton(
-  //                   onPressed: (){ _bloc.inputEventSink.add(CounterEvent.event_increment);
-  //                   },
-  //                   icon: const Icon(Icons.add),
-  //                   color: Colors.black),
-  //             ],
-  //           ),
-  //         ),
-  //         const Text(
-  //           '"+" to increment',
-  //           style: TextStyle(color: Colors.white, fontSize: 16),
-  //         )
-  //       ],
-  //     ),
-  //   ),
-  // ),
 }

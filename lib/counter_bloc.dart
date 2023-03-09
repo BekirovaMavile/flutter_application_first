@@ -1,35 +1,30 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
-enum CounterEvent { event_increment, event_decrement }
-
-class CounterBloc {
- int _counter = 50;
-
-  final _inputEventController = StreamController<CounterEvent>();
-  StreamSink<CounterEvent> get inputEventSink => _inputEventController.sink;
-
-  final _outputStateontroller = StreamController<int>();
-  Stream<int> get outputStateStream => _outputStateontroller.stream;
-
-  void _mapEventToState(CounterEvent event) {
-    if (event == CounterEvent.event_increment)
-      _counter++;
-    else if (event == CounterEvent.event_decrement)
-      _counter--;
-    else
-      throw Exception('Wrong Event Type');
-
-    _outputStateontroller.sink.add(_counter);
-  }
-
+class CounterBloc{
   CounterBloc() {
-    _inputEventController.stream.listen(_mapEventToState);
+    _eventStreamController.stream.listen(_mapEventToState);
   }
 
-  void dispose() {
-    _inputEventController.close();
-    _outputStateontroller.close();
+  final _counterStreamController = StreamController<String>();
+  final _eventStreamController = StreamController<String>();
+
+  Stream<String> get counterForListen => _counterStreamController.stream;
+  StreamSink<String> get sinkForSendEvent => _eventStreamController.sink;
+  var counter = 50;
+  _incrementCounter(){
+    counter++;
+  }
+  _decrementCounter() {
+    counter--;
+  }
+
+  void _mapEventToState(String event){
+    if(event == 'increment'){
+      _counterStreamController.sink.add(_incrementCounter());
+    }
+    if(event == 'decrement'){
+      _counterStreamController.sink.add(_decrementCounter());
+    }
   }
 }
