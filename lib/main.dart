@@ -33,8 +33,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomePageState extends State<MyHomePage> {
-  var counter = 50;
-CounterBloc bloc = CounterBloc();
+  final _counter = 50;
+final _bloc = CounterBloc();
 
   // int _counter = 50;
 
@@ -60,7 +60,7 @@ CounterBloc bloc = CounterBloc();
       ),
       body: Center(
         child: StreamBuilder(
-          stream: bloc.counterForListen,
+          stream: _bloc.counterForListen,
           builder: (context, snapshot) {
           return Container(
         color: const Color.fromARGB(255, 121, 203, 140),
@@ -86,16 +86,16 @@ CounterBloc bloc = CounterBloc();
                   children: [
                     IconButton(
                       icon: const Icon(Icons.remove),
-                      onPressed:(){ 'decrement';
+                      onPressed:(){ _bloc.sinkForSendEvent.add('decrement');
                       },
                     ),
                     Text(
-                      '$counter',
+                      '$_counter',
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     IconButton(
                       icon: const Icon(Icons.add),
-                      onPressed:(){ 'increment';
+                      onPressed:(){ _bloc.sinkForSendEvent.add('increment');
                       }
                     ),
                   ],
