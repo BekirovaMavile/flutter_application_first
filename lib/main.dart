@@ -22,11 +22,11 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, this.title = 'Counter', this.centerTitle = true})
+  const MyHomePage({Key? key, this.title = 'Counter'})
       : super(key: key);
 
   final String title;
-  final bool centerTitle;
+  // final bool centerTitle;
 
   @override
   MyHomePageState createState() => MyHomePageState();
@@ -56,7 +56,7 @@ CounterBloc bloc = CounterBloc();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Counter'),
-        centerTitle: widget.centerTitle,
+        // centerTitle: widget.centerTitle,
       ),
       body: Center(
         child: StreamBuilder(
