@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 void main() {
   runApp(MyApp());
 }
@@ -21,18 +20,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-var color = Colors.red;
+  var color = Colors.red;
 
+  void onRedTap() {
+    color = Colors.red;
+    setState(() {});
+  }
 
-void onRedTap(){
-  color = Colors.red;
-  setState(() {});
-}
+  void onGreenTap() {
+    color = Colors.green;
+    setState(() {});
+  }
 
-void onGreenTap(){
-  color = Colors.green;
-  setState(() {});
-}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,11 +39,11 @@ void onGreenTap(){
         title: const Text('BLoC with Stream'),
       ),
       body: Center(
-          child: AnimatedContainer(
-              height: 100,
-              width: 100,
-              color: color,
-              duration: const Duration(milliseconds: 500)),
+        child: AnimatedContainer(
+            height: 100,
+            width: 100,
+            color: color,
+            duration: const Duration(milliseconds: 500)),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
