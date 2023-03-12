@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/color_bloc.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Counter',
       home: MyHomePage(),
     );
@@ -15,21 +17,28 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var color = Colors.red;
+  // var color = Colors.red;
+  final _bloc = ColorBloc();
 
-  void onRedTap() {
-    color = Colors.red;
-    setState(() {});
-  }
+  // void onRedTap() {
+  //   color = Colors.red;
+  //   setState(() {});
+  // }
 
-  void onGreenTap() {
-    color = Colors.green;
-    setState(() {});
+  // void onGreenTap() {
+  //   color = Colors.green;
+  //   setState(() {});
+  // }
+  @override
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
   }
 
   @override
@@ -39,23 +48,34 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text('BLoC with Stream'),
       ),
       body: Center(
-        child: AnimatedContainer(
+        child: StreamBuilder(
+          stream: _bloc.colorForListen,
+          initialData: Colors.red,
+          builder: (context, snapshot) {
+          return AnimatedContainer(
             height: 100,
             width: 100,
-            color: color,
-            duration: const Duration(milliseconds: 500)),
+            color: snapshot.data,
+            duration: const Duration(milliseconds: 500)
+            );
+        },
+      ),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
             backgroundColor: Colors.red,
-            onPressed: onRedTap,
+            onPressed: (){
+              _bloc.sinkForEventSend.add('red');
+            }
           ),
           const SizedBox(width: 10),
           FloatingActionButton(
             backgroundColor: Colors.green,
-            onPressed: onGreenTap,
+            onPressed: () {
+                _bloc.sinkForEventSend.add('green');
+              }
           )
         ],
       ),
