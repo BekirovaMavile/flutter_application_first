@@ -11,47 +11,50 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Inherited Widget'),
       ),
-      body: MyInheritedWidget(
-        name, 
-        age,
-        child: const FirstChild(),
+      body: FirstChild(
+        name: name, 
+        age: age,
+        
       )
     );
   }
 }
 class FirstChild extends StatelessWidget {
-  const FirstChild({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const SecondChild();
-  }
-}
-class SecondChild extends StatelessWidget {
-  const SecondChild({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const ThirdChild();
-  }
-}
-class ThirdChild extends StatelessWidget {
-  const ThirdChild({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final hunter = context.dependOnInheritedWidgetOfExactType<MyInheritedWidget>() as MyInheritedWidget;
-    return Center(
-      child: Text('${hunter.name} ${hunter.age}'),
-    );
-  }
-}
-
-class MyInheritedWidget extends InheritedWidget{
-  const MyInheritedWidget(this.name, this.age, {super.key, required super.child});
+  const FirstChild({super.key, required this.name, required this.age});
   final String name;
   final String age;
 
   @override
-  bool updateShouldNotify(covariant MyInheritedWidget oldWidget) => name != oldWidget.name || age != oldWidget.age;
+  Widget build(BuildContext context) {
+    return  SecondChild(
+      name: name,
+      age: age,
+    );
+  }
 }
+class SecondChild extends StatelessWidget {
+  const SecondChild({super.key, required this.name, required this.age});
+  final String name;
+  final String age;
+
+  @override
+  Widget build(BuildContext context) {
+    return  ThirdChild(
+      name: name,
+      age: age,
+    );
+  }
+}
+class ThirdChild extends StatelessWidget {
+  const ThirdChild({super.key, required this.name, required this.age});
+  final String name;
+  final String age;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('${name} ${age}'),
+    );
+  }
+}
+
